@@ -19,11 +19,12 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 
 	//Load shaders
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
-	
+	m_Triangles = CompileShaders("./Shaders/triangle.vs", "./Shaders/triangle.fs");
+
 	//Create VBOs
 	CreateVertexBufferObjects();
 
-	if (m_SolidRectShader > 0 && m_VBORect > 0)
+	if (m_SolidRectShader > 0 && m_Triangles > 0 && m_VBORect > 0 && m_TriangleVBO > 0)
 	{
 		m_Initialized = true;
 	}
@@ -36,16 +37,33 @@ bool Renderer::IsInitialized()
 
 void Renderer::CreateVertexBufferObjects()
 {
-	float rect[]
-		=
+	float rect[] =
 	{
-		-1.f / m_WindowSizeX, -1.f / m_WindowSizeY, 0.f, -1.f / m_WindowSizeX, 1.f / m_WindowSizeY, 0.f, 1.f / m_WindowSizeX, 1.f / m_WindowSizeY, 0.f, //Triangle1
-		-1.f / m_WindowSizeX, -1.f / m_WindowSizeY, 0.f,  1.f / m_WindowSizeX, 1.f / m_WindowSizeY, 0.f, 1.f / m_WindowSizeX, -1.f / m_WindowSizeY, 0.f, //Triangle2
+		-1.f / m_WindowSizeX, -1.f / m_WindowSizeY, 0.f,
+		-1.f / m_WindowSizeX,  1.f / m_WindowSizeY, 0.f,
+		 1.f / m_WindowSizeX,  1.f / m_WindowSizeY, 0.f,
+
+		-1.f / m_WindowSizeX, -1.f / m_WindowSizeY, 0.f,
+		 1.f / m_WindowSizeX,  1.f / m_WindowSizeY, 0.f,
+		 1.f / m_WindowSizeX, -1.f / m_WindowSizeY, 0.f,
 	};
 
 	glGenBuffers(1, &m_VBORect);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBORect);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rect), rect, GL_STATIC_DRAW);
+
+	float triangle[] =
+	{
+		0.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		1.0f, 0.0f, 0.0f
+	};
+
+	glGenBuffers(1, &m_TriangleVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_TriangleVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle), triangle, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void Renderer::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
@@ -186,4 +204,28 @@ void Renderer::GetGLPosition(float x, float y, float *newX, float *newY)
 {
 	*newX = x * 2.f / m_WindowSizeX;
 	*newY = y * 2.f / m_WindowSizeY;
+}
+
+void Renderer::DrawTriangle(float x, float y, float* newX, float* newY)
+{
+	float triangle[] =
+	{
+		0.0f,  0.0f, 0.0f,   // 왼쪽 아래
+		1.0f,  1.0f, 0.0f,   // 오른쪽 위
+		1.0f,  0.0f, 0.0f    // 오른쪽 아래
+	};
+
+	glUseProgram(m_Triangles);
+
+	int attribPosition = glGetAttribLocation(m_Triangles, "a_Position");
+	glEnableVertexAttribArray(attribPosition);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_TriangleVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle), triangle, GL_DYNAMIC_DRAW);
+	glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	glDisableVertexAttribArray(attribPosition);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

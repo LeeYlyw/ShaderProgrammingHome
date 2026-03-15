@@ -49,5 +49,11 @@
     <None Include="Shaders\SolidRect.vs">
       <Filter>소스 파일\Shaders</Filter>
     </None>
+    <None Include="triangle.fs">
+      <Filter>소스 파일</Filter>
+    </None>
+    <None Include="triangle.vs">
+      <Filter>소스 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>

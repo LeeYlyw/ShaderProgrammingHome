@@ -22,8 +22,10 @@ void RenderScene(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
-	// Renderer Test
-	g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
+	//g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
+
+	float newX, newY;
+	g_Renderer->DrawTriangle(100, 200, &newX, &newY);
 
 	glutSwapBuffers();
 }
