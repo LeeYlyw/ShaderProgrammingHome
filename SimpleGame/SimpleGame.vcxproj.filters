@@ -55,5 +55,17 @@
     <None Include="triangle.vs">
       <Filter>소스 파일</Filter>
     </None>
+    <None Include="Shaders\triangle.vs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\triangle.fs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\Fullscreen.vs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\Fullscreen.frag">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,7 +1,30 @@
-Library/
-Temp/
-Logs/
-obj/
-Build/
-Builds/
-UserSettings/
+# Visual Studio
+.vs/
+*.user
+*.VC.db
+*.VC.VC.opendb
+*.suo
+
+# Build results
+Debug/
+Release/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+ipch/
+
+# Compiled files
+*.obj
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+*.idb
+*.exp
+
+# Logs and temp
+*.log
+*.tlog
+*.tmp

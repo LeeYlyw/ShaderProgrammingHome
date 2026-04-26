@@ -170,8 +170,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\Fullscreen.frag" />
+    <None Include="Shaders\Fullscreen.vs" />
     <None Include="Shaders\SolidRect.fs" />
     <None Include="Shaders\SolidRect.vs" />
+    <None Include="Shaders\triangle.fs" />
+    <None Include="Shaders\triangle.vs" />
     <None Include="triangle.fs" />
     <None Include="triangle.vs" />
   </ItemGroup>

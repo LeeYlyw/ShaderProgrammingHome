@@ -1,40 +1,47 @@
 #pragma once
 
+#include "Dependencies/glew.h"
 #include <string>
-#include <cstdlib>
-#include <fstream>
-#include <iostream>
-
-#include "Dependencies\glew.h"
 
 class Renderer
 {
 public:
-	Renderer(int windowSizeX, int windowSizeY);
-	~Renderer();
+    Renderer(int windowSizeX, int windowSizeY);
+    ~Renderer();
 
-	bool IsInitialized();
-	void DrawSolidRect(float x, float y, float z, float size, float r, float g, float b, float a);
-	void DrawTriangle(float x, float y, float* newX, float* newY);
+    void Initialize(int windowSizeX, int windowSizeY);
+    bool IsInitialized();
+
+    void DrawSolidRect(float x, float y, float z, float size, float r, float g, float b, float a);
+    void DrawTriangle(float x, float y, float* newX, float* newY);
+    void DrawFS();
 
 private:
-	void Initialize(int windowSizeX, int windowSizeY);
-	bool ReadFile(char* filename, std::string* target);
-	void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType);
-	GLuint CompileShaders(char* filenameVS, char* filenameFS);
-	void CreateVertexBufferObjects();
-	void GetGLPosition(float x, float y, float* newX, float* newY);
+    void CreateVertexBufferObjects();
+    void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType);
+    bool ReadFile(char* filename, std::string* target);
+    GLuint CompileShaders(char* filenameVS, char* filenameFS);
+    void GetGLPosition(float x, float y, float* newX, float* newY);
+    void genParticles(int count);
 
-	bool m_Initialized = false;
+private:
+    bool m_Initialized = false;
 
-	unsigned int m_WindowSizeX = 0;
-	unsigned int m_WindowSizeY = 0;
+    int m_WindowSizeX = 0;
+    int m_WindowSizeY = 0;
 
-	GLuint m_VBORect = 0;
-	GLuint m_SolidRectShader = 0;
+    GLuint m_SolidRectShader = 0;
+    GLuint m_Triangles = 0;
+    GLuint m_FSShader = 0;
 
-	GLuint m_TriangleVBO = 0;
-	GLuint m_Triangles = 0;
+    GLuint m_VBORect = 0;
+    GLuint m_TriangleVBO = 0;
+    GLuint m_ParticleVBO = 0;
+    GLuint m_VBOFS = 0;
+
+    int m_VertexCount = 0;
 
 
+    //Raindrop
+    float m_RainInfo[2000];
 };
