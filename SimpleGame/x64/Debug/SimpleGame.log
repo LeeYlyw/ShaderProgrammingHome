@@ -1,2 +1,8 @@
 ﻿  Renderer.cpp
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(111,59): warning C4244: '인수': 'GLuint'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/Renderer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(113,59): warning C4244: '인수': 'GLuint'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/Renderer.cpp'을(를) 컴파일하는 중)
+  
   SimpleGame.vcxproj -> C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\x64\Debug\SimpleGame.exe

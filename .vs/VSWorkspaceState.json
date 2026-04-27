@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\SimpleGame",
+    "\\SimpleGame\\Shaders"
   ],
-  "SelectedNode": "\\SimpleGame.sln",
+  "SelectedNode": "\\SimpleGame\\Shaders\\FS.frag",
   "PreviewInSolutionExplorer": false
 }

@@ -23,6 +23,7 @@ private:
     GLuint CompileShaders(char* filenameVS, char* filenameFS);
     void GetGLPosition(float x, float y, float* newX, float* newY);
     void genParticles(int count);
+    GLuint CreatePngTexture(char* filePath, GLuint samplingMethod);
 
 private:
     bool m_Initialized = false;
@@ -44,4 +45,10 @@ private:
 
     //Raindrop
     float m_RainInfo[2000];
+
+    GLuint m_RgbTexture = 0;
+    GLuint m_NumTexture[10];
+    GLuint m_NumsTexture = 0;
+
+
 };

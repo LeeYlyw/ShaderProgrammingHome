@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Renderer.h"
+#include "LoadPng.h"
+# include <assert.h>
 #include <vector>
 #include <ctime>
 #include <cstdlib>
@@ -27,9 +29,19 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 
     m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
     m_Triangles = CompileShaders("./Shaders/triangle.vs", "./Shaders/triangle.fs");
-    m_FSShader = CompileShaders("./Shaders/Fullscreen.vs", "./Shaders/Fullscreen.frag");
+    m_FSShader = CompileShaders("./Shaders/Fullscreen.vs", "./Shaders/Fullscreen.fs");
 
     glEnable(GL_PROGRAM_POINT_SIZE);
+
+
+    //Load Textures
+    m_RgbTexture = CreatePngTexture("./textures/rgb.png", GL_NEAREST);
+    m_NumsTexture = CreatePngTexture("./textures/numbers.png", GL_NEAREST);
+    for (int i = 0; i < 10; i++)
+    {
+        std::string path = "./textures/" + std::to_string(i) + ".png";
+        m_NumTexture[i] = CreatePngTexture((char*)path.c_str(), GL_NEAREST);
+    }
 
     CreateVertexBufferObjects();
     genParticles(1000);
@@ -58,6 +70,52 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 bool Renderer::IsInitialized()
 {
     return m_Initialized;
+}
+
+GLuint Renderer::CreatePngTexture(char* filePath, GLuint samplingMethod)
+
+{
+
+    //Load Png
+
+    std::vector<unsigned char> image;
+
+    unsigned width, height;
+
+    unsigned error = lodepng::decode(image, width, height, filePath);
+
+    if (error != 0)
+
+    {
+
+        std::cout << "PNG image loading failed:" << filePath << std::endl;
+
+        assert(0);
+
+    }
+
+
+
+    GLuint temp;
+
+    glGenTextures(1, &temp);
+
+    glBindTexture(GL_TEXTURE_2D, temp);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+
+        GL_UNSIGNED_BYTE, &image[0]);
+
+
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, samplingMethod);
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, samplingMethod);
+
+
+
+    return temp;
+
 }
 
 void Renderer::CreateVertexBufferObjects()
@@ -103,13 +161,13 @@ void Renderer::CreateVertexBufferObjects()
     float rectFS[] =
     {
         // x, y, z,    u, v
-        -1.0f, -1.0f, 0.0f,   0.0f, 0.0f,
-         1.0f, -1.0f, 0.0f,   1.0f, 0.0f,
-         1.0f,  1.0f, 0.0f,   1.0f, 1.0f,
+        -1.0f, -1.0f, 0.0f,   0.0f, 1.0f,
+         1.0f, -1.0f, 0.0f,   1.0f, 1.0f,
+         1.0f,  1.0f, 0.0f,   1.0f, 0.0f,
 
-        -1.0f, -1.0f, 0.0f,   0.0f, 0.0f,
-         1.0f,  1.0f, 0.0f,   1.0f, 1.0f,
-        -1.0f,  1.0f, 0.0f,   0.0f, 1.0f
+        -1.0f, -1.0f, 0.0f,   0.0f, 1.0f,
+         1.0f,  1.0f, 0.0f,   1.0f, 0.0f,
+        -1.0f,  1.0f, 0.0f,   0.0f, 0.0f
     };
 
     glGenBuffers(1, &m_VBOFS);
@@ -336,24 +394,45 @@ void Renderer::DrawTriangle(float x, float y, float* newX, float* newY)
 
 void Renderer::DrawFS()
 {
-    glUseProgram(m_FSShader);
+    //Program select
+    GLuint shader = m_FSShader;
+    glUseProgram(shader);
 
-    GLint uTime = glGetUniformLocation(m_FSShader, "u_Time");
-    float gTime = GetTickCount64() / 1000.0f;    glUniform1f(uTime, gTime);
+    int uTime =
+        glGetUniformLocation(shader,
+            "u_Time");
+    float gTime = GetTickCount64() / 1000.0f;
+    glUniform1f(uTime, gTime);
 
-    int uPoints = glGetAttribLocation(m_FSShader, "a_Points");
-    glUniform4fv(uPoints, 400, m_RainInfo);
+    int uRGBTexture =
+        glGetUniformLocation(shader,
+            "u_RGBTex");
+    glUniform1i(uRGBTexture, 0);
 
-    int attribPosition = glGetAttribLocation(m_FSShader, "a_Position");
-    int attribTex = glGetAttribLocation(m_FSShader, "a_Tex");
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_RgbTexture);
+
+    int attribPosition =
+        glGetAttribLocation(shader,
+            "a_Position");
+    int attribTex =
+        glGetAttribLocation(shader,
+            "a_Tex");
 
     glEnableVertexAttribArray(attribPosition);
     glEnableVertexAttribArray(attribTex);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBOFS);
 
-    glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (GLvoid*)0);
-    glVertexAttribPointer(attribTex, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (GLvoid*)(sizeof(float) * 3));
+    glVertexAttribPointer(
+        attribPosition, 3,
+        GL_FLOAT, GL_FALSE,
+        5 * sizeof(float), 0);
+
+    glVertexAttribPointer(
+        attribTex, 2,
+        GL_FLOAT, GL_FALSE,
+        5 * sizeof(float), (GLvoid*)(sizeof(float) * 3));
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -362,4 +441,3 @@ void Renderer::DrawFS()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
-
