@@ -172,7 +172,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\FS.frag" />
+    <None Include="Shaders\FS.fs">
+      <FileType>Document</FileType>
+    </None>
     <None Include="Shaders\FS.vs" />
     <None Include="Shaders\Fullscreen.fs" />
     <None Include="Shaders\Fullscreen.vs" />
