@@ -1,30 +1,14 @@
-# Visual Studio
-.vs/
-*.user
-*.VC.db
-*.VC.VC.opendb
-*.suo
+/.vs 
+/simplegame/x64 
+*.exe 
+*.ilk 
+*.pdb 
+*.obj 
+*.log 
+*.pch 
+*.idb 
+*.tlog 
+*.lastbuildstate 
+*.suo 
+*.db 
 
-# Build results
-Debug/
-Release/
-x64/
-x86/
-[Bb]in/
-[Oo]bj/
-ipch/
-
-# Compiled files
-*.obj
-*.exe
-*.dll
-*.lib
-*.pdb
-*.ilk
-*.idb
-*.exp
-
-# Logs and temp
-*.log
-*.tlog
-*.tmp

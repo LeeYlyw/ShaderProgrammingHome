@@ -1,31 +1,52 @@
-#version 330 core
+#version 330
 
-in float v_T;
-out vec4 FragColor;
+layout(location=0) out vec4 FragColor;
 
-void main()
+in float v_Grey;
+in vec2 v_Tex;
+in vec3 v_Color;
+
+uniform sampler2D u_ParticleTex; 
+uniform sampler2D u_ParticleSpriteTex;
+
+void CircleShape()
 {
-    // t=0 근처: 밝은 노랑-주황
-    vec3 hotColor = vec3(1.0, 0.85, 0.2);
-
-    // 중간: 주황
-    vec3 midColor = vec3(1.0, 0.45, 0.05);
-
-    // 끝: 어두운 빨강
-    vec3 coolColor = vec3(0.45, 0.0, 0.0);
-
-    vec3 color;
-
-    if (v_T < 0.5)
+    float d = distance(vec2(0.5, 0.5), v_Tex);
+    if(d<0.5)
     {
-        float k = v_T / 0.5;
-        color = mix(hotColor, midColor, k);
+        FragColor = vec4(v_Grey,v_Grey,v_Grey, clamp(0.5 - d, 0, 0.5)*2.0);
     }
     else
     {
-        float k = (v_T - 0.5) / 0.5;
-        color = mix(midColor, coolColor, k);
+        FragColor = vec4(0);
     }
+}
 
-    FragColor = vec4(color, 1.0);
+void SingleTexture()
+{
+    FragColor = v_Grey*texture(u_ParticleTex, v_Tex);
+}
+
+void AnimTexture()
+{
+    float resolX = 9.0;
+    float resolY = 9.0;
+    float index = floor((1.0-v_Grey)*(resolX*resolY-1));
+    float tx = v_Tex.x / resolX;
+    float ty = v_Tex.y / resolY;
+    float offsetX = fract(index / resolX);
+    float offsetY = floor(index/resolX)/resolY;
+
+    vec2 newTex = vec2(tx+offsetX, ty+offsetY);
+
+    float d = distance(vec2(0.5, 0.5), v_Tex);
+    float value = clamp(0.5 - d, 0, 0.5)*2.0;
+
+    FragColor = v_Grey*texture(u_ParticleSpriteTex, newTex);
+    FragColor.a *= value;
+}
+
+void main()
+{
+    AnimTexture();
 }

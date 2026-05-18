@@ -195,7 +195,48 @@ void Nums()
 }
 
 
+void VS_Q3_Q6()
+{
+    float tx = v_Tex.x;
+    float ty = fract(v_Tex.y * 3.0) / 3.0;
+
+    float offsetX = 0.0;
+    float offsetY = fract(floor(v_Tex.y * 3.0) * 2.0 / 3.0);
+
+    vec2 tex = vec2(offsetX + tx, offsetY + ty);
+
+    FragColor = texture(u_RGBTex, tex);
+}
+
+void VS_Q3_Q7()
+{
+    float tx = fract(v_Tex.x * 3.0);
+    float ty = v_Tex.y / 3.0;
+
+    float offsetX = 0.0;
+    float offsetY = fract((floor(v_Tex.x * 3.0) + 1.0) / 3.0);
+
+    vec2 tex = vec2(offsetX + tx, offsetY + ty);
+
+    FragColor = texture(u_RGBTex, tex);
+}
+
+void VS_Q3_Q10()
+{
+    float index = float(5);
+
+    float tx = v_Tex.x / 5.0;
+    float ty = v_Tex.y / 2.0;
+
+    float offsetX = fract(index / 5.0);
+    float offsetY = floor(index / 5.0) / 2.0;
+
+    vec2 tex = vec2(offsetX + tx, offsetY + ty);
+
+    FragColor = texture(u_NumsTex, tex);
+}
+
 void main()
 {
-    Nums();
+    VS_Q3_Q10();
 }
