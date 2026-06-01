@@ -133,7 +133,7 @@ void RainDrop()
 {	
 	float accum = 0;
 	//Rain Drop
-	for(int i=0; i<200; i++)
+	for(int i=0; i<20; i++)
 	{
 		float lTime = u_DropInfo[i].w;
 		float sTime = u_DropInfo[i].z;
@@ -145,7 +145,7 @@ void RainDrop()
 			float t = newTime * lTime;
 			vec2 center = u_DropInfo[i].xy;
 			vec2 currPos = v_Tex.xy;
-			float range = t/10;
+			float range = t; // 속도 조절
 			float d = distance(center, currPos);
 			float fade = 30 * clamp(range-d, 0, 1);
 			float value = pow(abs(sin(d * 4 * c_PI * 10 - t*15)), 16);
@@ -304,13 +304,6 @@ void Nums()
     FragColor = texture(u_NumsTex, newTex);
 }
 
-void main()
-{
-	//TextureSampling();
-    Nums();
-}
-
-
 
 /*void FS_01_Q6()
 {
@@ -408,3 +401,9 @@ void FS_03_Q10()
     FragColor = texture(u_NumsTex, vec2(tx + offsetX, ty + offsetY));
     if(FragColor.a == 0) discard;
 }*/
+
+
+void main()
+{
+    RainDrop();
+}

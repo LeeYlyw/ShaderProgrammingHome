@@ -18,19 +18,22 @@ public:
 	void DrawSolidRect(float x, float y, float z, float size, float r, float g, float b, float a);
 	void DrawTriangle();
 	void DrawFS();
+	void DrawDummy();
 
 private:
 	void Initialize(int windowSizeX, int windowSizeY);
-	bool ReadFile(char* filename, std::string *target);
+	bool ReadFile(char* filename, std::string* target);
 	void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType);
 	GLuint CompileShaders(char* filenameVS, char* filenameFS);
 	void CreateVertexBufferObjects();
-	void GetGLPosition(float x, float y, float *newX, float *newY);
+	void GetGLPosition(float x, float y, float* newX, float* newY);
 	void GenParticles(int count);
 	GLuint CreatePngTexture(char* filePath, GLuint samplingMethod);
+	void GenDummyMesh(int rX, int rY);
+
 
 	bool m_Initialized = false;
-	
+
 	unsigned int m_WindowSizeX = 0;
 	unsigned int m_WindowSizeY = 0;
 
@@ -39,7 +42,7 @@ private:
 
 	GLuint m_VBOTriangle = 0;
 	GLuint m_TriangleShader = 0;
-	
+
 	GLuint m_VBOParticle = 0;
 	int m_VBOParticleCount = 0;
 
@@ -56,5 +59,9 @@ private:
 	GLuint m_NumsTexture = 0;
 	GLuint m_ParticleTexture = 0;
 	GLuint m_ParticleSpriteTexture = 0;
-};
+	GLuint m_AhnTexture = 0;
 
+	GLuint m_VBODummy = 0;
+	GLuint m_VBOdummyCount = 0;
+	GLuint m_DummyShader = 0;
+};

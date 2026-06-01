@@ -32,16 +32,20 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	m_FSShader = CompileShaders(
 		"./Shaders/FS.vs",
 		"./Shaders/FS.fs");
+	m_DummyShader = CompileShaders(
+		"./Shaders/Dummy.vs",
+		"./Shaders/Dummy.fs");
 
 	//Load Textures
-	m_RgbTexture = CreatePngTexture("./textures/rgb.png", GL_NEAREST); //0 slot
-	m_NumsTexture = CreatePngTexture("./textures/numbers.png", GL_NEAREST); //1slot
-	m_ParticleTexture = CreatePngTexture("./textures/particle.png", GL_NEAREST); 
-	m_ParticleSpriteTexture = CreatePngTexture("./textures/explosion.png", GL_NEAREST);
+	m_RgbTexture = CreatePngTexture("./Textures/rgb.png", GL_NEAREST); //0 slot
+	m_NumsTexture = CreatePngTexture("./Textures/numbers.png", GL_NEAREST); //1slot
+	m_ParticleTexture = CreatePngTexture("./Textures/particle.png", GL_NEAREST); 
+	m_ParticleSpriteTexture = CreatePngTexture("./Textures/explosion.png", GL_NEAREST);
+	m_AhnTexture = CreatePngTexture("./Textures/ahn.png", GL_NEAREST);
 
 	for (int i = 0; i < 10; i++)
 	{
-		std::string path = "./textures/" + std::to_string(i) + ".png";
+		std::string path = "./Textures/" + std::to_string(i) + ".png";
 		m_NumTexture[i] = CreatePngTexture((char*)path.c_str(), GL_NEAREST); //2~11slot
 	}
 
@@ -49,6 +53,8 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	CreateVertexBufferObjects();
 
 	GenParticles(1000);
+
+	GenDummyMesh(100,100);
 
 	//Gen Drop Info
 	int index = 0;
@@ -164,6 +170,84 @@ GLuint Renderer::CreatePngTexture(char* filePath, GLuint samplingMethod)
 
 	return temp;
 
+}
+
+void Renderer::GenDummyMesh(int rX, int rY)
+{
+	float basePosX = -0.5f;
+	float basePosY = -0.5f;
+	float targetPosX = 0.5f;
+	float targetPosY = 0.5f;
+
+	int pointCountX = rX;
+	int pointCountY = rY;
+
+	float width = targetPosX - basePosX;
+	float height = targetPosY - basePosY;
+
+	float* point = new float[pointCountX * pointCountY * 2];
+	float* vertices = new float[(pointCountX - 1) * (pointCountY - 1) * 2 * 3 * 3];
+
+	m_VBOdummyCount = (pointCountX - 1) * (pointCountY - 1) * 2 * 3;
+
+	// Prepare points
+	for (int x = 0; x < pointCountX; x++)
+	{
+		for (int y = 0; y < pointCountY; y++)
+		{
+			point[(y * pointCountX + x) * 2 + 0]
+				= basePosX + width * (x / (float)(pointCountX - 1));
+
+			point[(y * pointCountX + x) * 2 + 1]
+				= basePosY + height * (y / (float)(pointCountY - 1));
+		}
+	}
+
+	// Make triangles
+	int vertIndex = 0;
+	for (int x = 0; x < pointCountX - 1; x++)
+	{
+		for (int y = 0; y < pointCountY - 1; y++)
+		{
+			// Triangle part 1
+			vertices[vertIndex++] = point[(y * pointCountX + x) * 2 + 0];
+			vertices[vertIndex++] = point[(y * pointCountX + x) * 2 + 1];
+			vertices[vertIndex++] = 0.0f;
+
+			vertices[vertIndex++] = point[((y + 1) * pointCountX + (x + 1)) * 2 + 0];
+			vertices[vertIndex++] = point[((y + 1) * pointCountX + (x + 1)) * 2 + 1];
+			vertices[vertIndex++] = 0.0f;
+
+			vertices[vertIndex++] = point[((y + 1) * pointCountX + x) * 2 + 0];
+			vertices[vertIndex++] = point[((y + 1) * pointCountX + x) * 2 + 1];
+			vertices[vertIndex++] = 0.0f;
+
+			// Triangle part 2
+			vertices[vertIndex++] = point[(y * pointCountX + x) * 2 + 0];
+			vertices[vertIndex++] = point[(y * pointCountX + x) * 2 + 1];
+			vertices[vertIndex++] = 0.0f;
+
+			vertices[vertIndex++] = point[(y * pointCountX + (x + 1)) * 2 + 0];
+			vertices[vertIndex++] = point[(y * pointCountX + (x + 1)) * 2 + 1];
+			vertices[vertIndex++] = 0.0f;
+
+			vertices[vertIndex++] = point[((y + 1) * pointCountX + (x + 1)) * 2 + 0];
+			vertices[vertIndex++] = point[((y + 1) * pointCountX + (x + 1)) * 2 + 1];
+			vertices[vertIndex++] = 0.0f;
+		}
+	}
+
+	glGenBuffers(1, &m_VBODummy);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBODummy);
+	glBufferData(
+		GL_ARRAY_BUFFER,
+		sizeof(float) * (pointCountX - 1) * (pointCountY - 1) * 2 * 3 * 3,
+		vertices,
+		GL_STATIC_DRAW
+	);
+
+	delete[] point;
+	delete[] vertices;
 }
 
 void Renderer::GenParticles(int count)
@@ -642,4 +726,45 @@ void Renderer::GetGLPosition(float x, float y, float *newX, float *newY)
 {
 	*newX = x * 2.f / m_WindowSizeX;
 	*newY = y * 2.f / m_WindowSizeY;
+}
+
+void Renderer::DrawDummy()
+{
+	GLuint shader = m_DummyShader;
+	glUseProgram(m_DummyShader);
+
+	static float gTime = 0.0f;
+
+	int uTime = glGetUniformLocation(shader, "u_Time");
+	glUniform1f(uTime, gTime);
+	gTime += 0.016;
+
+	int uAhnTex = glGetUniformLocation(shader, "u_AhnTex");
+	glUniform1i(uAhnTex, 0);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_AhnTexture);
+
+	int uPoints = glGetUniformLocation(
+		shader, "u_DropInfo");
+	glUniform4fv(uPoints, 1000, m_DropPoints);
+
+	int aPos = glGetAttribLocation(shader, "a_Position");
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBODummy);
+
+	glEnableVertexAttribArray(aPos);
+
+	glVertexAttribPointer(
+		aPos,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(float) * 3,
+		0
+	);
+
+	glDrawArrays(GL_TRIANGLES, 0, m_VBOdummyCount);
+
+	glDisableVertexAttribArray(aPos);
 }
