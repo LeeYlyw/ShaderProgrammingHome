@@ -73,9 +73,16 @@ void Circle()
             accum += sinValue * fade * oneMinus;
         }
     }
+    //v_Grey = accum;
+
+    ////gl_Position = vec4(a_Position, 1.0);
+    //gl_Position = vec4(a_Position.x, a_Position.y + accum * 0.05, a_Position.z, 1.0);
+
     v_Grey = accum;
 
-    //gl_Position = vec4(a_Position, 1.0);
+    v_Tex.x = a_Position.x + 0.5;
+    v_Tex.y = 1.0 - (a_Position.y + 0.5);
+
     gl_Position = vec4(a_Position.x, a_Position.y + accum * 0.05, a_Position.z, 1.0);
 
 }

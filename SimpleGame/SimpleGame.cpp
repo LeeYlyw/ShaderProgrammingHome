@@ -24,8 +24,9 @@ void RenderScene(void)
 
 	// Renderer Test
 	//g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
-	g_Renderer->DrawDummy();
+	g_Renderer->DrawAll_FBO();
 	//g_Renderer->DrawFS();
+	//g_Renderer->DrawTextures();
 	glutSwapBuffers();
 }
 

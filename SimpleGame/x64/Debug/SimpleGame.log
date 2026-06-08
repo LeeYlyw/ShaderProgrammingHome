@@ -1,23 +1,31 @@
 ﻿  Renderer.cpp
-C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(101,13): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
   (소스 파일 '/Renderer.cpp'을(를) 컴파일하는 중)
   
-C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(168,56): warning C4244: '인수': 'GLuint'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(112,13): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
   (소스 파일 '/Renderer.cpp'을(를) 컴파일하는 중)
   
-C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(169,56): warning C4244: '인수': 'GLuint'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(202,56): warning C4244: '인수': 'GLuint'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Renderer.cpp'을(를) 컴파일하는 중)
   
-C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(427,21): warning C4267: '=': 'size_t'에서 'GLint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(203,56): warning C4244: '인수': 'GLuint'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Renderer.cpp'을(를) 컴파일하는 중)
   
-C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(555,12): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(461,21): warning C4267: '=': 'size_t'에서 'GLint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Renderer.cpp'을(를) 컴파일하는 중)
   
-C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(645,12): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(589,12): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
   (소스 파일 '/Renderer.cpp'을(를) 컴파일하는 중)
   
-C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(740,11): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(679,12): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
   (소스 파일 '/Renderer.cpp'을(를) 컴파일하는 중)
   
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.cpp(832,11): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+  (소스 파일 '/Renderer.cpp'을(를) 컴파일하는 중)
+  
+  SimpleGame.cpp
+C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\SimpleGame\Renderer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 '/SimpleGame.cpp'을(를) 컴파일하는 중)
+  
+  코드를 생성하고 있습니다...
   SimpleGame.vcxproj -> C:\Users\User\Downloads\쉐이더프로그래밍\ShaderProgrammingHome\x64\Debug\SimpleGame.exe

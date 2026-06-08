@@ -15,10 +15,16 @@ public:
 	~Renderer();
 
 	bool IsInitialized();
+
 	void DrawSolidRect(float x, float y, float z, float size, float r, float g, float b, float a);
 	void DrawTriangle();
 	void DrawFS();
 	void DrawDummy();
+	void DrawDummy_FBO();
+	void DrawAll_FBO();
+
+	// Texture 출력 함수
+	void DrawTextures(GLuint texID, float x, float y, float scale, bool bFlip);
 
 private:
 	void Initialize(int windowSizeX, int windowSizeY);
@@ -30,7 +36,7 @@ private:
 	void GenParticles(int count);
 	GLuint CreatePngTexture(char* filePath, GLuint samplingMethod);
 	void GenDummyMesh(int rX, int rY);
-
+	void GenFBOs();
 
 	bool m_Initialized = false;
 
@@ -46,14 +52,14 @@ private:
 	GLuint m_VBOParticle = 0;
 	int m_VBOParticleCount = 0;
 
-	//FragmentShader
+	// FragmentShader
 	GLuint m_VBOFS = 0;
 	GLuint m_FSShader = 0;
 
-	//RainDrops
+	// RainDrops
 	float m_DropPoints[1000 * 4];
 
-	//Textures
+	// Textures
 	GLuint m_RgbTexture = 0;
 	GLuint m_NumTexture[10];
 	GLuint m_NumsTexture = 0;
@@ -61,7 +67,23 @@ private:
 	GLuint m_ParticleSpriteTexture = 0;
 	GLuint m_AhnTexture = 0;
 
+	// Texture Draw
+	GLuint m_TextureShader = 0;
+	GLuint m_TextureVBO = 0;
+
+	// Dummy
 	GLuint m_VBODummy = 0;
 	GLuint m_VBOdummyCount = 0;
 	GLuint m_DummyShader = 0;
+
+	//FBO
+	GLuint m_FBO = 0;
+	GLuint m_FBO_Texture = 0;
+	GLuint m_FBO1 = 0;
+	GLuint m_FBO_Texture1 = 0;
+	GLuint m_FBO2 = 0;
+	GLuint m_FBO_Texture2 = 0;
+	GLuint m_FBO_Depth = 0;
+
+	
 };
