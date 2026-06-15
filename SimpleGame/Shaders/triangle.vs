@@ -187,5 +187,5 @@ void Shape()
 
 void main()
 {
-    Shape();
+    Falling();
 }

@@ -25,6 +25,7 @@ public:
 
 	// Texture 출력 함수
 	void DrawTextures(GLuint texID, float x, float y, float scale, bool bFlip);
+	void DrawMultipleRenderTarget();
 
 private:
 	void Initialize(int windowSizeX, int windowSizeY);
@@ -76,14 +77,23 @@ private:
 	GLuint m_VBOdummyCount = 0;
 	GLuint m_DummyShader = 0;
 
-	//FBO
+	// FBO
 	GLuint m_FBO = 0;
-	GLuint m_FBO_Texture = 0;
 	GLuint m_FBO1 = 0;
-	GLuint m_FBO_Texture1 = 0;
 	GLuint m_FBO2 = 0;
-	GLuint m_FBO_Texture2 = 0;
-	GLuint m_FBO_Depth = 0;
 
-	
+	GLuint m_FBO_Texture = 0;
+	GLuint m_FBO_Texture1 = 0;
+	GLuint m_FBO_Texture2 = 0;
+
+	GLuint m_FBO_Depth = 0;
+	GLuint m_FBO_Depth1 = 0;
+	GLuint m_FBO_Depth2 = 0;
+
+	// MRT
+	GLuint m_MRT_FBO = 0;
+	GLuint m_MRT_FBO_Texture0 = 0;
+	GLuint m_MRT_FBO_Texture1 = 0;
+	GLuint m_MRT_FBO_Texture2 = 0;
+	GLuint m_MRT_FBO_Depth = 0;
 };

@@ -1,6 +1,8 @@
 #version 330
 
 layout(location=0) out vec4 FragColor;
+layout(location=1) out vec4 FragColor1;
+layout(location=2) out vec4 FragColor2;
 
 in vec2 v_Tex;
 
@@ -26,7 +28,7 @@ void Simple()
 	}
 }
 
-void LinePattern()
+vec4 LinePattern()
 {
 	float lineCountH = 10;
 	float lineCountV = 2;
@@ -43,7 +45,7 @@ void LinePattern()
 			abs(sin((v_Tex.x*2*c_PI+per)*lineCountV))
 					, lineWidth);
 
-	FragColor = vec4(grey+grey1);
+	return vec4(grey+grey1);
 }
 
 void Circle()
@@ -129,36 +131,39 @@ void FractalJuliaAnimated()
     }
 }
 
-void RainDrop()
+vec4 RainDrop()
 {	
-	float accum = 0;
-	//Rain Drop
-	for(int i=0; i<20; i++)
+	float accum = 0.0;
+
+	for(int i = 0; i < 100; i++)
 	{
 		float lTime = u_DropInfo[i].w;
 		float sTime = u_DropInfo[i].z;
 		float newTime = u_Time - sTime;
-		if(newTime > 0)
+
+		if(newTime > 0.0)
 		{
-			newTime = fract(newTime/lTime); //0~1
-			float oneMinus = 1-newTime; //1~0
+			newTime = fract(newTime / lTime); // 0~1
+			float oneMinus = 1.0 - newTime;
 			float t = newTime * lTime;
+
 			vec2 center = u_DropInfo[i].xy;
 			vec2 currPos = v_Tex.xy;
-			float range = t; // 속도 조절
+
+			float range = t / 5.0;
 			float d = distance(center, currPos);
-			float fade = 30 * clamp(range-d, 0, 1);
-			float value = pow(abs(sin(d * 4 * c_PI * 10 - t*15)), 16);
+
+			float fade = 12.0 * clamp(range - d, 0.0, 1.0);
+			float value = pow(abs(sin(d * 4.0 * c_PI * 7.0 - t * 8.0)), 16.0);
+
 			accum += value * fade * oneMinus;
 		}
-		else
-		{
-		}
 	}
-	FragColor = vec4(accum);
+
+	return vec4(accum * 0.7);
 }
 
-void Flag()
+vec4 Flag()
 {
     float amp = 0.5;
     float speed = 15;
@@ -176,10 +181,9 @@ void Flag()
     else
     {
         grey = 0;
-        discard;
     }
 
-    FragColor = vec4(grey);
+    return vec4(grey);
 }
 
 void Flame()
@@ -201,7 +205,6 @@ void Flame()
     else
     {
         grey = 0;
-        discard;
     }
 
     FragColor = vec4(grey);
@@ -405,5 +408,8 @@ void FS_03_Q10()
 
 void main()
 {
-    RainDrop();
+    FragColor = RainDrop();
+    FragColor1 = Flag();
+    FragColor2 = LinePattern();
+
 }
